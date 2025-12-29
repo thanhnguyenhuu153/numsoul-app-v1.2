@@ -1,61 +1,56 @@
 import { User } from "../types";
-import { auth, googleProvider } from "./firebaseConfig";
+
+// Simulating a backend delay
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export const authService = {
-  loginWithGoogle: async (): Promise<User | null> => {
-    try {
-      if (!auth || !googleProvider) {
-        alert("Lỗi kết nối: Chưa tìm thấy cấu hình Firebase. Hãy kiểm tra file .env");
-        console.error("Firebase auth is null. Check your VITE_FIREBASE_* env variables.");
-        return null;
-      }
-
-      // 1. Trigger Google Popup
-      const result = await auth.signInWithPopup(googleProvider);
-      const fbUser = result.user;
-      
-      if (!fbUser) return null;
-
-      // 2. Map Firebase User to App User
-      const user: User = {
-        id: fbUser.uid,
-        name: fbUser.displayName || 'User',
-        email: fbUser.email || '',
-        avatar: fbUser.photoURL || `https://ui-avatars.com/api/?name=${fbUser.displayName || 'U'}&background=random`,
-        provider: 'google',
-        tier: 'free' // In a real app, fetch this from your Database (Firestore)
-      };
-
-      // 3. Save session
-      authService.saveSession(user);
-      return user;
-    } catch (error: any) {
-      console.error("Google Login Error:", error);
-      if (error?.code === 'auth/popup-closed-by-user') {
-        return null; // Ignore if user closed popup
-      }
-      alert(`Đăng nhập thất bại: ${error.message}`);
-      return null;
-    }
+  loginWithGoogle: async (): Promise<User> => {
+    await delay(1000); // Simulate network request
+    // Mock: In a real app, you would fetch the 'tier' from your database
+    return {
+      id: 'g_12345',
+      name: 'Google User',
+      email: 'user@gmail.com',
+      avatar: 'https://ui-avatars.com/api/?name=Google+User&background=DB4437&color=fff',
+      provider: 'google',
+      tier: 'free'
+    };
   },
 
-  loginWithApple: async (): Promise<User | null> => {
-    alert("Tính năng đăng nhập Apple đang phát triển. Vui lòng dùng Google.");
-    return null;
+  loginWithApple: async (): Promise<User> => {
+    await delay(1000);
+    return {
+      id: 'a_67890',
+      name: 'Apple User',
+      email: 'user@icloud.com',
+      avatar: 'https://ui-avatars.com/api/?name=Apple+User&background=000&color=fff',
+      provider: 'apple',
+      tier: 'free'
+    };
   },
 
-  loginWithEmail: async (email: string): Promise<User | null> => {
-     alert("Hệ thống khuyến khích sử dụng Google Login để bảo mật tốt nhất.");
-     return null;
+  loginWithEmail: async (email: string): Promise<User> => {
+    await delay(1000);
+    const name = email.split('@')[0];
+    return {
+      id: `e_${Date.now()}`,
+      name: name,
+      email: email,
+      avatar: `https://ui-avatars.com/api/?name=${name}&background=6366f1&color=fff`,
+      provider: 'email',
+      tier: 'free'
+    };
   },
 
-  // Simulate payment
+  // Simulate upgrading a user
   upgradeUser: async (currentUser: User): Promise<User> => {
+    await delay(1500); // Simulate payment processing
     const upgradedUser = { ...currentUser, tier: 'premium' as const };
     authService.saveSession(upgradedUser);
     return upgradedUser;
   },
 
+  // Check if session exists in local storage
   getCurrentUser: (): User | null => {
     const stored = localStorage.getItem('numio_user');
     return stored ? JSON.parse(stored) : null;
@@ -65,12 +60,7 @@ export const authService = {
     localStorage.setItem('numio_user', JSON.stringify(user));
   },
 
-  logout: async () => {
-    try {
-      if (auth) await auth.signOut();
-    } catch (e) {
-      console.error("Logout error", e);
-    }
+  logout: () => {
     localStorage.removeItem('numio_user');
   }
 };
