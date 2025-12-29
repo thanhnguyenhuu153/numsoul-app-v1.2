@@ -4,10 +4,9 @@ import { User } from "../types";
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export const authService = {
-  loginWithGoogle: async (): Promise<User> => {
+  loginWithGoogle: async (): Promise<User | null> => {
     await delay(1000); // Simulate network request
-    // Mock: In a real app, you would fetch the 'tier' from your database
-    return {
+    const user: User = {
       id: 'g_12345',
       name: 'Google User',
       email: 'user@gmail.com',
@@ -15,11 +14,13 @@ export const authService = {
       provider: 'google',
       tier: 'free'
     };
+    authService.saveSession(user);
+    return user;
   },
 
-  loginWithApple: async (): Promise<User> => {
+  loginWithApple: async (): Promise<User | null> => {
     await delay(1000);
-    return {
+    const user: User = {
       id: 'a_67890',
       name: 'Apple User',
       email: 'user@icloud.com',
@@ -27,12 +28,14 @@ export const authService = {
       provider: 'apple',
       tier: 'free'
     };
+    authService.saveSession(user);
+    return user;
   },
 
-  loginWithEmail: async (email: string): Promise<User> => {
+  loginWithEmail: async (email: string): Promise<User | null> => {
     await delay(1000);
     const name = email.split('@')[0];
-    return {
+    const user: User = {
       id: `e_${Date.now()}`,
       name: name,
       email: email,
@@ -40,17 +43,17 @@ export const authService = {
       provider: 'email',
       tier: 'free'
     };
+    authService.saveSession(user);
+    return user;
   },
 
-  // Simulate upgrading a user
   upgradeUser: async (currentUser: User): Promise<User> => {
-    await delay(1500); // Simulate payment processing
+    await delay(1500); 
     const upgradedUser = { ...currentUser, tier: 'premium' as const };
     authService.saveSession(upgradedUser);
     return upgradedUser;
   },
 
-  // Check if session exists in local storage
   getCurrentUser: (): User | null => {
     const stored = localStorage.getItem('numio_user');
     return stored ? JSON.parse(stored) : null;
@@ -60,7 +63,7 @@ export const authService = {
     localStorage.setItem('numio_user', JSON.stringify(user));
   },
 
-  logout: () => {
+  logout: async () => {
     localStorage.removeItem('numio_user');
   }
 };

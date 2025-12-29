@@ -1,7 +1,10 @@
-// import { initializeApp } from "firebase/app";
-// import { getAuth, GoogleAuthProvider } from "firebase/auth";
+// Firebase configuration is disabled to prevent build errors.
+// To use Firebase, ensure the 'firebase' package is installed and configured correctly.
 
-// Vite uses import.meta.env to access environment variables
+/*
+import { initializeApp } from "firebase/app";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
+
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -11,27 +14,22 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
-// Use 'any' type for auth/provider to prevent strict Type checks from failing the build if types are missing
-let auth: any = null;
-let googleProvider: any = null;
+let app;
+let auth;
+let googleProvider;
 
-/*
 try {
-  // Check if API Key exists to avoid crashing in environments without config
   if (firebaseConfig.apiKey) {
-    // app = initializeApp(firebaseConfig);
-    // auth = getAuth(app);
-    // googleProvider = new GoogleAuthProvider();
-    
-    // Optional: Configure Google Provider specific scopes if needed
-    // googleProvider.addScope('profile');
-    // googleProvider.addScope('email');
-  } else {
-    console.warn("Firebase config is missing (VITE_FIREBASE_API_KEY). Auth will not work.");
+    app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    googleProvider = new GoogleAuthProvider();
   }
 } catch (e) {
   console.error("Firebase Initialization Error:", e);
 }
-*/
 
 export { auth, googleProvider };
+*/
+
+export const auth = null;
+export const googleProvider = null;
