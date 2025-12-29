@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #6366f1; border-radius: 3px; }
+
+/* 3D Card Utilities */
+.card-flip { perspective: 1200px; }
+.card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; }
+.card-flip.flipped .card-inner { transform: rotateY(180deg); }
+.card-back { transform: rotateY(180deg); }
+.backface-hidden { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.transform-style-3d { transform-style: preserve-3d; }
+.rotate-y-180 { transform: rotateY(180deg); }
+.perspective-1000 { perspective: 1000px; }
+
+/* Textures */
+.bg-grain { background-image: url("https://www.transparenttextures.com/patterns/p6.png"); opacity: 0.05; }
+.bg-stars {
+  background-image: 
+    radial-gradient(1.5px 1.5px at 25px 5px, white, transparent), 
+    radial-gradient(1px 1px at 50px 25px, white, transparent), 
+    radial-gradient(1px 1px at 125px 20px, white, transparent), 
+    radial-gradient(2px 2px at 75px 80px, rgba(255,255,255,0.4), transparent), 
+    radial-gradient(1.5px 1.5px at 200px 200px, white, transparent);
+  background-size: 300px 300px;
+}
+.bg-dots {
+  background-image: radial-gradient(#a855f7 0.8px, transparent 0.8px);
+  background-size: 24px 24px;
+}
+.bg-sacred {
+  background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 0C17.909 0 0 17.909 0 40s17.909 40 40 40 40-17.909 40-40S62.091 0 40 0zm0 76C20.118 76 4 59.882 4 40S20.118 4 40 4s36 16.118 36 36-16.118 36-36 36zM40 8c-17.673 0-32 14.327-32 32s14.327 32 32 32 32-14.327 32-32S57.673 8 40 8zm0 60c-15.464 0-28-12.536-28-28s12.536-28 28-28 28 12.536 28 28-12.536 28-28 28z' fill='%236366f1' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+.glass-glow { box-shadow: 0 0 20px rgba(168, 85, 247, 0.1), inset 0 0 20px rgba(255, 255, 255, 0.05); }
