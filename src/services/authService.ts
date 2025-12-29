@@ -4,9 +4,9 @@ import { User } from "../types";
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 export const authService = {
-  loginWithGoogle: async (): Promise<User> => {
+  loginWithGoogle: async (): Promise<User | null> => {
     await delay(1000); // Simulate network request
-    // Mock: In a real app, you would fetch the 'tier' from your database
+    // Mock user for demonstration since Firebase is not configured
     return {
       id: 'g_12345',
       name: 'Google User',
@@ -17,7 +17,7 @@ export const authService = {
     };
   },
 
-  loginWithApple: async (): Promise<User> => {
+  loginWithApple: async (): Promise<User | null> => {
     await delay(1000);
     return {
       id: 'a_67890',
@@ -29,7 +29,7 @@ export const authService = {
     };
   },
 
-  loginWithEmail: async (email: string): Promise<User> => {
+  loginWithEmail: async (email: string): Promise<User | null> => {
     await delay(1000);
     const name = email.split('@')[0];
     return {
@@ -60,7 +60,8 @@ export const authService = {
     localStorage.setItem('numio_user', JSON.stringify(user));
   },
 
-  logout: () => {
+  logout: async () => {
+    await delay(200);
     localStorage.removeItem('numio_user');
   }
 };
